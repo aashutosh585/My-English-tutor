@@ -1,0 +1,8 @@
+{
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "name": "English Tutor AI",
+  "description": "",
+  "prompt": ""
+}
