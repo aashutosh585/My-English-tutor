@@ -99,9 +99,30 @@ const App = () => {
       setIsLoading(true);
       setMessages([]);
       startNewChat(getSystemInstruction(role));
-      await handleSendMessage(`Hello! Introduce yourself as my ${role}.`, true);
-      setIsLoading(false);
-  }, [handleSendMessage]);
+      
+      try {
+        const aiResponse = await sendMessageToAI(`Hello! Introduce yourself as my ${role}.`);
+        const modelMessage = {
+          id: `model-${Date.now()}`,
+          role: MessageRole.MODEL,
+          content: aiResponse.response,
+          correction: aiResponse.correction,
+          explanation: aiResponse.explanation,
+        };
+        setMessages([modelMessage]);
+        speak(aiResponse.response);
+      } catch (error) {
+        console.error("Failed to get AI response:", error);
+        const errorMessage = {
+          id: `error-${Date.now()}`,
+          role: MessageRole.MODEL,
+          content: "I'm having a little trouble connecting right now. Please try again in a moment.",
+        };
+        setMessages([errorMessage]);
+      } finally {
+        setIsLoading(false);
+      }
+  }, [speak]);
 
   useEffect(() => {
     const loadAndSetVoices = () => {
