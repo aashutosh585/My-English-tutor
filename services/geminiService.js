@@ -9,7 +9,7 @@ let chat = null;
 
 export const startNewChat = (systemInstruction) => {
     chat = ai.chats.create({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.5-flash',
         config: {
             systemInstruction: systemInstruction,
             responseMimeType: 'application/json',
